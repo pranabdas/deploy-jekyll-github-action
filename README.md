@@ -62,7 +62,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
-          bundler-cache: true
+
+      - name: Install ruby dependencies
+        run: bundle install
 
       - name: Build website
         run: bundle exec jekyll build
@@ -78,3 +80,52 @@ jobs:
 ```
 
 - Commit and push changes to github.
+
+- Finally, we will make some changes to our website, and see it automatically
+reflects in the automatic deploy. We will add some math equation to our
+**about** page.
+
+- In order to parse math equation, we will use `katex` math engine. Add
+following to your `_config.yml`:
+```yaml
+markdown: kramdown
+kramdown:
+  math_engine: katex
+```
+
+- Also we need to add a new **gem** for this. Add `kramdown-math-katex` to the
+list of gems in `Gemfile`:
+```yaml
+group :jekyll_plugins do
+  gem "jekyll-feed", "~> 0.12"
+  gem "kramdown-math-katex"
+end
+```
+
+- Run `bundle install` to update `Gemfile.lock`
+- Open `about.markdown` and include `katex` stylesheet just below front matter:
+```md
+---
+layout: page
+title: About
+permalink: /about/
+---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css" integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+
+
+This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+```
+
+- Now add some test math equation, in the bottom of about page:
+```md
+[jekyll-organization]: https://github.com/jekyll
+
+$$
+I = \int_0^1 f(x) dx
+$$
+```
+
+- That's all. Commit and push changes again, and we should see our equation
+rendered perfectly [here](
+https://pranabdas.github.io/deploy-jekyll-github-action/about/).
