@@ -81,6 +81,16 @@ jobs:
 
 - Commit and push changes to github.
 
+- Note that if you did not follow the step to manually push to gh-pages branch
+for deploy, the push from the workflow, won't automatically activate GitHub
+pages. All you have to do: go to your repository **Settings** → **Pages**, and
+select your source branch and path once the workflow pushed commit to the
+gh-pages brach. This is one time settings you need to follow if your GitHub
+Pages is not setup. Once GitHub Pages is active, it will deploy subsequent
+pushes from the workflow automatically.
+
+![github-deploy-select-source](./assets/github-deploy-select-source.png)
+
 - Finally, we will make some changes to our website, and see it automatically
 reflects in the automatic deploy. We will add some math equation to our
 **about** page.
